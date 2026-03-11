@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="/css/style.css">
+
+<title>Math Club | Prime Collective</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+
+:root{
+--accent:#7c3aed;
+--text-secondary:#94a3b8;
+--border:rgba(255,255,255,0.1);
+}
+
+.btn:hover{
+background:#ffffff!important;
+color:#7c3aed!important;
+border:1px solid #7c3aed;
+}
+
+.gradient-text{
+background:linear-gradient(to right,#ffffff,#a78bfa);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+font-size:4rem;
+font-weight:800;
+line-height:1.1;
+}
+
+.glass-card{
+transition:all .4s cubic-bezier(.175,.885,.32,1.275);
+}
+
+.glass-card:hover{
+background:rgba(255,255,255,.06)!important;
+border-color:rgba(124,58,237,.4)!important;
+transform:translateY(-8px);
+box-shadow:0 20px 40px rgba(0,0,0,.4);
+}
+
+.pulse-dot{
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+0%{opacity:1;transform:scale(1)}
+50%{opacity:.4;transform:scale(1.2)}
+100%{opacity:1;transform:scale(1)}
+}
+
+.arena-btn{
+background:white;
+color:black;
+border:none;
+padding:12px 30px;
+border-radius:100px;
+font-weight:900;
+font-size:.85rem;
+cursor:pointer;
+transition:.3s;
+}
+
+.arena-btn:hover{
+background:#7c3aed;
+color:white;
+box-shadow:0 0 20px rgba(124,58,237,.4);
+}
+
+</style>
+</head>
+
+<body style="background:#020617;color:white;margin:0;font-family:sans-serif;">
+
+
+<nav style="display:flex;justify-content:space-between;align-items:center;padding:1.5rem 5%;position:sticky;top:0;background:rgba(2,6,23,.8);backdrop-filter:blur(12px);z-index:1000;">
+
+<div style="font-weight:800;letter-spacing:-1px;font-size:1.2rem;">
+<span style="color:#7c3aed;">Σ</span> MATH COLLECTIVE
+</div>
+
+<div style="display:flex;align-items:center;gap:30px;">
+
+<a href="/">Home</a>
+<a href="/events">Events</a>
+<a href="/gallery">Gallery</a>
+
+<div id="logged-in-profile" style="display:none;align-items:center;gap:10px;background:rgba(255,255,255,.05);padding:5px 15px;border-radius:50px;border:1px solid rgba(124,58,237,.3);">
+
+<div id="user-initial" style="width:24px;height:24px;background:linear-gradient(to tr,#7c3aed,#3b82f6);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold;">A</div>
+
+<span id="user-display-name" style="font-size:10px;font-weight:bold;">Atul</span>
+
+</div>
+
+<a href="/login" id="login-btn" class="btn" style="background:#7c3aed;color:white;padding:.6rem 1.5rem;border-radius:8px;font-weight:bold;font-size:.9rem;">Member Access</a>
+
+</div>
+
+</nav>
+
+
+<header style="padding:6rem 5% 4rem;text-align:center;">
+
+<span style="color:#7c3aed;font-weight:600;font-size:.8rem;letter-spacing:4px;text-transform:uppercase;">Est. 2026</span>
+
+<h1 class="gradient-text" style="margin-top:1rem;">Architects of <br> Pure Logic.</h1>
+
+<p style="color:#94a3b8;max-width:600px;margin:2rem auto;font-size:1.1rem;line-height:1.6;">
+A premier university hub dedicated to competitive mathematics, discrete research, and algorithmic elegance.
+</p>
+
+<div style="display:flex;justify-content:center;gap:20px;">
+<a href="/register" class="btn" style="background:#7c3aed;color:white;padding:.8rem 2rem;border-radius:12px;font-weight:bold;">Join the Collective</a>
+
+<a href="/about" class="btn" style="border:1px solid rgba(255,255,255,.1);padding:.8rem 2rem;border-radius:12px;font-weight:bold;">Learn More</a>
+</div>
+
+</header>
+
+
+<section style="padding:40px 5% 100px;max-width:1100px;margin:0 auto;">
+
+<div style="display:grid;grid-template-columns:1.6fr 1fr;gap:20px;">
+
+
+<div class="glass-card" style="padding:40px;border-radius:24px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);">
+
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+<span class="pulse-dot" style="width:8px;height:8px;background:#10b981;border-radius:50%;"></span>
+<span style="color:#a78bfa;font-size:10px;font-weight:900;letter-spacing:2px;">WEEKLY OBJECTIVE</span>
+</div>
+
+<h2 id="challenge-title" style="font-size:2rem;font-weight:800;margin-bottom:15px;">Loading challenge...</h2>
+
+<div id="challenge-question" style="background:rgba(0,0,0,.3);padding:25px;border-radius:16px;color:#cbd5e1;font-family:serif;font-style:italic;border-left:4px solid #7c3aed;margin-bottom:25px;">
+Fetching theorem...
+</div>
+
+<button onclick="window.location.href='/arena'" class="arena-btn">
+ENTER THE ARENA →
+</button>
+
+</div>
+
+
+<div style="display:flex;flex-direction:column;gap:20px;">
+
+
+<div class="glass-card" style="padding:25px;border-radius:24px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);">
+
+<h3 style="color:#64748b;font-size:10px;font-weight:900;text-transform:uppercase;margin-bottom:15px;">
+Leaderboard
+</h3>
+
+<div id="leaderboard"></div>
+
+</div>
+
+
+<div class="glass-card" style="padding:25px;border-radius:24px;background:linear-gradient(to bottom right,rgba(124,58,237,.08),transparent);border:1px solid rgba(124,58,237,.15);">
+
+<h3 style="color:#a78bfa;font-size:10px;font-weight:900;text-transform:uppercase;margin-bottom:12px;">Next Colloquium</h3>
+
+<p id="colloquium-title">Loading event...</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<script>
+
+async function loadChallenge(){
+
+const res = await fetch('/api/challenge/current');
+const data = await res.json();
+
+if(data){
+document.getElementById("challenge-title").innerText=data.title;
+document.getElementById("challenge-question").innerText=data.question;
+}
+
+}
+
+async function loadLeaderboard(){
+
+const res=await fetch('/api/leaderboard');
+const users=await res.json();
+
+const board=document.getElementById("leaderboard");
+
+board.innerHTML=users.map(u=>`
+
+<div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+<span>${u.name}</span>
+<span>${u.xp} XP</span>
+</div>
+
+`).join("");
+
+}
+
+async function loadColloquium(){
+
+try{
+
+const res=await fetch('/api/events/upcoming');
+const data=await res.json();
+
+if(data){
+document.getElementById("colloquium-title").innerText=data.title;
+}
+
+}catch(err){
+console.log("No event yet");
+}
+
+}
+
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+loadChallenge();
+loadLeaderboard();
+loadColloquium();
+
+
+const sessionKey=Object.keys(localStorage).find(key=>key.includes('auth-token'));
+const sessionData=localStorage.getItem(sessionKey);
+
+if(sessionData){
+
+const {user}=JSON.parse(sessionData);
+
+document.getElementById('login-btn').style.display='none';
+
+const profile=document.getElementById('logged-in-profile');
+profile.style.display='flex';
+
+const name=user.user_metadata.username || user.email.split('@')[0];
+
+document.getElementById('user-display-name').innerText=name;
+document.getElementById('user-initial').innerText=name.charAt(0).toUpperCase();
+
+}
+
+});
+
+</script>
+
+</body>
+</html>

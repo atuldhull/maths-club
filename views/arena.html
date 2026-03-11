@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>The Arena | Math Collective</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body style="background:#020617;color:white;font-family:sans-serif;padding:50px">
+
+<h1>Weekly Challenge</h1>
+
+<h2 id="challenge-title">Loading...</h2>
+
+<p id="challenge-question"></p>
+
+<input id="answer" placeholder="Enter your answer">
+
+<button onclick="submitAnswer()">Submit</button>
+
+<p id="result"></p>
+
+<script>
+
+let correctAnswer;
+let challengePoints;
+
+async function loadChallenge(){
+
+const res = await fetch('/api/challenge/current');
+const data = await res.json();
+
+document.getElementById("challenge-title").innerText = data.title;
+document.getElementById("challenge-question").innerText = data.question;
+
+correctAnswer = data.answer;
+challengePoints = data.points;
+
+}
+
+async function submitAnswer(){
+
+const userAnswer = document.getElementById("answer").value;
+
+if(userAnswer.trim() === correctAnswer.trim()){
+
+document.getElementById("result").innerText = "Correct! +" + challengePoints + " XP";
+
+await fetch('/api/challenge/solve',{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+points:challengePoints
+})
+});
+
+}else{
+
+document.getElementById("result").innerText="Incorrect answer";
+
+}
+
+}
+
+loadChallenge();
+
+</script>
+
+</body>
+</html>

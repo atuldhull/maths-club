@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Archive Access | Login</title>
+</head>
+<body>
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <div class="glass-card" style="width: 350px;">
+            <h2 class="glow-text">IDENTITY VERIFICATION</h2>
+            <form action="/api/auth/login" method="POST">
+                <input type="email" name="email" placeholder="Student Email" required 
+                       style="width: 100%; padding: 10px; margin: 10px 0; background: rgba(0,0,0,0.5); border: 1px solid var(--neon-blue); color: white;">
+                <input type="password" name="password" placeholder="Passcode" required 
+                       style="width: 100%; padding: 10px; margin: 10px 0; background: rgba(0,0,0,0.5); border: 1px solid var(--neon-blue); color: white;">
+                <button type="submit" class="glow-text" 
+                        style="width: 100%; padding: 10px; background: none; border: 1px solid var(--neon-blue); color: var(--neon-blue); cursor: pointer;">
+                    AUTHENTICATE
+                </button>
+            </form>
+            <p style="font-size: 0.8rem; margin-top: 15px;">New to the grid? <a href="/register" style="color: var(--neon-blue);">Register here</a></p>
+        </div>
+    </div>
+</body>
+</html>

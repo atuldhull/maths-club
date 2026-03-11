@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Registry | Join the Collective</title>
+</head>
+<body>
+    <div style="display: flex; justify-content: center; align-items: center; min-height: 90vh;">
+        <div class="card" style="width: 400px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);">
+            <h2 style="margin-top: 0;">New Researcher</h2>
+            <p style="color: var(--text-dim); font-size: 0.9rem;">Join the university's premier mathematics collective.</p>
+            
+            <form action="/api/auth/register" method="POST">
+                <label style="font-size: 0.8rem; color: var(--text-dim);">Full Name</label>
+                <input type="text" name="name" placeholder="Gauss Friedrich" required>
+                
+                <label style="font-size: 0.8rem; color: var(--text-dim);">Institutional Email</label>
+                <input type="email" name="email" placeholder="name@college.edu" required>
+                
+                <label style="font-size: 0.8rem; color: var(--text-dim);">Security Key</label>
+                <input type="password" name="password" placeholder="••••••••" required>
+                
+                <button type="submit" class="btn-prime" style="width:100%; border:none; margin-top: 1rem; cursor:pointer;">
+                    Register Account
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
