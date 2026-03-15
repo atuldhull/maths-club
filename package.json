@@ -11,8 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@google/generative-ai": "0.24.1",
     "@supabase/supabase-js": "2.99.1",
+    "axios": "1.13.6",
     "bcryptjs": "3.0.3",
     "body-parser": "2.2.2",
     "cors": "2.8.6",
@@ -20,7 +20,10 @@
     "express": "5.2.1",
     "express-session": "1.19.0",
     "jsonwebtoken": "9.0.3",
+    "mathjs": "15.1.1",
     "mongoose": "9.2.4",
+    "nerdamer": "1.1.13",
+    "node-fetch": "3.3.2",
     "nodemon": "3.1.14"
   }
 }

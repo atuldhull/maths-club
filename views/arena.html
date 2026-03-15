@@ -1,63 +1,208 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
 <title>The Arena | Math Collective</title>
+
 <link rel="stylesheet" href="/css/style.css">
+<script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 
-<body style="background:#020617;color:white;font-family:sans-serif;padding:50px">
+<body class="bg-slate-950 text-white font-sans">
 
-<h1>Weekly Challenge</h1>
+<div class="max-w-5xl mx-auto py-20 px-6">
 
-<h2 id="challenge-title">Loading...</h2>
+<h1 class="text-5xl font-bold mb-12 text-center">
+⚔ THE ARENA
+</h1>
 
-<p id="challenge-question"></p>
+<div class="bg-white/5 border border-white/10 rounded-3xl p-10">
 
-<input id="answer" placeholder="Enter your answer">
+<div class="flex justify-between mb-6">
 
-<button onclick="submitAnswer()">Submit</button>
+<h2 id="challenge-title" class="text-3xl font-bold">
+Loading Challenge...
+</h2>
 
-<p id="result"></p>
+<span id="difficulty" class="px-4 py-1 rounded-full text-sm bg-purple-500/20">
+--
+</span>
+
+</div>
+
+<p id="challenge-question" class="text-gray-300 mb-10 text-lg leading-relaxed">
+Loading problem...
+</p>
+
+<div id="options" class="grid grid-cols-2 gap-4 mb-8"></div>
+
+<div class="mt-6 flex justify-between items-center">
+
+<button id="submitBtn"
+onclick="submitAnswer()"
+class="bg-purple-600 hover:bg-purple-500 px-8 py-3 rounded-xl font-bold">
+Submit Solution
+</button>
+
+<span id="xp-display" class="text-gray-400"></span>
+
+</div>
+
+<p id="result" class="mt-6 text-lg"></p>
+
+<div id="solution-box" class="mt-10 hidden"></div>
+
+</div>
+
+</div>
 
 <script>
 
-let correctAnswer;
-let challengePoints;
+let challengeId;
+let selectedIndex = null;
+let alreadySubmitted = false;
+
+/* ===============================
+SELECT OPTION
+=============================== */
+
+function selectOption(index){
+
+if(alreadySubmitted) return;
+
+selectedIndex = index;
+
+document.querySelectorAll(".option-btn")
+.forEach(btn => btn.classList.remove("bg-purple-600"));
+
+document.getElementById("opt-"+index)
+.classList.add("bg-purple-600");
+
+}
+
+/* ===============================
+LOAD CHALLENGE
+=============================== */
 
 async function loadChallenge(){
 
 const res = await fetch('/api/challenge/current');
 const data = await res.json();
 
+challengeId = data.id;
+
 document.getElementById("challenge-title").innerText = data.title;
 document.getElementById("challenge-question").innerText = data.question;
+document.getElementById("difficulty").innerText = data.difficulty || "MEDIUM";
 
-correctAnswer = data.answer;
-challengePoints = data.points;
+document.getElementById("xp-display").innerText =
+"Reward: " + data.points + " XP";
+
+const container = document.getElementById("options");
+
+container.innerHTML = data.options.map((opt,i)=>{
+
+const letter = ["A","B","C","D"][i];
+
+return `
+<button
+id="opt-${i}"
+class="option-btn border border-white/20 p-4 rounded-xl text-left hover:bg-purple-500/30"
+onclick="selectOption(${i})"
+>
+${opt}
+</button>
+`;
+
+}).join("");
 
 }
+
+/* ===============================
+SUBMIT ANSWER
+=============================== */
 
 async function submitAnswer(){
 
-const userAnswer = document.getElementById("answer").value;
+if(alreadySubmitted) return;
 
-if(userAnswer.trim() === correctAnswer.trim()){
+if(selectedIndex === null){
+alert("Please select an option first");
+return;
+}
 
-document.getElementById("result").innerText = "Correct! +" + challengePoints + " XP";
+alreadySubmitted = true;
 
-await fetch('/api/challenge/solve',{
+document.getElementById("submitBtn").disabled = true;
+
+const res = await fetch('/api/arena/submit',{
 method:'POST',
 headers:{'Content-Type':'application/json'},
 body:JSON.stringify({
-points:challengePoints
+challengeId,
+selectedIndex
 })
 });
 
+const data = await res.json();
+
+/* RESULT */
+
+if(data.correct){
+
+document.getElementById("result").innerHTML =
+"<span style='color:#22c55e'>✔ Correct!</span> +" + data.xp + " XP";
+
 }else{
 
-document.getElementById("result").innerText="Incorrect answer";
+document.getElementById("result").innerHTML =
+"<span style='color:#ef4444'>✘ Incorrect answer</span>";
 
 }
+
+/* HIGHLIGHT */
+
+document.querySelectorAll(".option-btn").forEach((btn,i)=>{
+
+if(i === data.correctIndex){
+
+btn.classList.add("bg-green-600");
+
+}else if(i === selectedIndex){
+
+btn.classList.add("bg-red-600");
+
+}
+
+});
+
+/* disable options */
+
+document.querySelectorAll(".option-btn").forEach(btn=>{
+btn.disabled = true;
+btn.classList.add("opacity-60","cursor-not-allowed");
+});
+
+/* SHOW LEARNING INFO */
+
+const theorem = data.theorem || "Not provided"
+const method = data.method || "Not provided"
+const hint = data.hint || "Not provided"
+
+document.getElementById("solution-box").classList.remove("hidden");
+
+document.getElementById("solution-box").innerHTML = `
+<h3 class="text-xl font-bold mt-6">Theorem</h3>
+<p class="text-gray-300 mt-2">${theorem}</p>
+
+<h3 class="text-xl font-bold mt-6">Method</h3>
+<p class="text-gray-300 mt-2">${method}</p>
+
+<h3 class="text-xl font-bold mt-6">Hint</h3>
+<p class="text-gray-300 mt-2">${hint}</p>
+`;
 
 }
 

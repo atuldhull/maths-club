@@ -1,25 +1,46 @@
-// Add this to your authController.js
-const login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
+import supabase from "../config/supabase.js";
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+/* ==========================
+   GET ALL EVENTS
+========================== */
+
+export const getEvents = async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("events")
+      .select("*")
+      .order("event_date", { ascending: true });
 
     if (error) throw error;
 
-    // Set a session/cookie here if you're using express-session, 
-    // or just return the user data to the frontend
-    res.json({ 
-      message: "Access Authorized", 
-      user: data.user,
-      session: data.session 
-    });
+    res.json(data);
+
   } catch (error) {
-    res.status(401).json({ error: "Invalid credentials" });
+    console.error("Events Error:", error.message);
+    res.status(500).json({ error: "Failed to fetch events" });
   }
 };
 
-export default { register, login };
+/* ==========================
+   GET SINGLE EVENT
+========================== */
+
+export const getEvent = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const { data, error } = await supabase
+      .from("events")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (error) throw error;
+
+    res.json(data);
+
+  } catch (error) {
+    console.error("Event Error:", error.message);
+    res.status(500).json({ error: "Failed to fetch event" });
+  }
+};

@@ -1,9 +1,10 @@
 import express from "express";
-import { submitSolve } from "../controllers/arenaController.js";
+import { submitSolve, getHistory } from "../controllers/arenaController.js";
 
 const router = express.Router();
 
-// submit answer to arena
-router.post("/solve", submitSolve);
+router.post("/submit", submitSolve);
+
+router.get("/history", getHistory);
 
 export default router;
